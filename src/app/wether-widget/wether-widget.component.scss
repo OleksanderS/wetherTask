@@ -1,0 +1,32 @@
+
+.wether-widget {
+  width: 350px;
+  height: 200px;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.addBlock {
+}
+
+.item-container {
+  display: flex;
+  align-content: center;
+}
+
+.delete-button {
+  justify-self: end;
+  margin-left: 10px;
+  font-size: 10px;
+  height: 20px;
+}
+
+.delimiter {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-top: 1px solid black;
+}

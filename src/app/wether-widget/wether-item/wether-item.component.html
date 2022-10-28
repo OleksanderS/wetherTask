@@ -1,0 +1,16 @@
+
+
+<div *ngIf="isDataRight()">
+    <span [ngClass]="{ defaultItem : isDedaultItem()}" class="place-name">{{data.wetherData.name}}</span>
+    <span class="place-temperatur">t: {{data.wetherData.main.temp}}</span><span>&#8451;</span>
+</div>
+<div *ngIf="!isDataRight()" class="wrong-data">
+  <span>lat: {{data.place.lat}}</span>
+  <span>lon: {{data.place.lon}}</span>
+  <span class="wrong-data">- wrong data</span>
+</div>
+
+<ng-content></ng-content>
+<!-- <p>wether-item</p><ng-content></ng-content> -->
+
+
