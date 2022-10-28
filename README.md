@@ -1,27 +1,54 @@
-# Wether
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.1.
+# Weather Widget(Виджет Погоды)
 
-## Development server
+Необходимо разработать одностраничное погодное приложение. 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Данные для отображения можно взять с https://fcc-weather-api.glitch.me/api/current?lat=48&lon=31 или любого другого открытого API. 
 
-## Code scaffolding
+Приложение должно уметь:
+Автоматически запрашивать погоду по координатам пользователя - это город/место по умолчанию. 
+Добавлять/удалять города (если добавлено в список больше 5 городов – постраничная разбивка). 
+Город по умолчанию всегда вверху списка и подсвеченый другим цветом.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Сохранять данные локально в LocalStorage/IndexedDB
+Responsive & User-friendly interface
 
-## Build
+Результат разработки необходимо выгрузить на github / bitbucket с коммитами разработчика. 
+Тестовое задание снабдить readme файлом с описанием requirements  + процесс сборки и запуска приложения.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Будет плюсом: покрытие кода тестами.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+## Run Locally
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Clone the project
 
-## Further help
+```bash
+  git clone https://github.com/OleksanderS/wetherTask.git
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Go to the project directory
+
+```bash
+  cd wetherTask
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm start
+```
+
+Navigate to http://localhost:4200/
+## Tech Stack
+
+This project was generated with Angular CLI version 12.2.1.
+
+Node v14.17.3
