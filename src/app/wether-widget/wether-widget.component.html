@@ -1,12 +1,13 @@
 
 <div class="wether-widget">
   <div class="listBlock">
-    <p>Places list:</p>
-    <div class="item-container" *ngFor="let wItem of wetherItems$ | async; index as i;">
+    <span class="listTitle">Places list:</span>
+    <div class="item-container" *ngFor="let wItem of wetherItems; index as i;">
       <wether-item [data]="wItem"></wether-item>
-      <button *ngIf="!wItem.place.defaultItem" class="delete-button" (click)="deletePlace(i)" title="Delete">D</button>
+      <button *ngIf="!wItem.place.defaultItem" class="delete-button" (click)="deletePlace(wItem)" title="Delete">D</button>
     </div>
   </div>
+  <wether-pager></wether-pager>
   <div class="addBlock">
     <div class="delimiter"></div>
     <wether-item-add></wether-item-add>

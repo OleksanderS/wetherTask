@@ -3,6 +3,6 @@
   <input name="lat" type="number" class="coords" formControlName="lat">
   <label>lon:</label>
   <input name="lon" type="number" class="coords" formControlName="lon">
-  <button class="addPlace">Add</button>
+  <button class="addPlace" [disabled]="!itemForm.valid">Add</button>
 </form>
 

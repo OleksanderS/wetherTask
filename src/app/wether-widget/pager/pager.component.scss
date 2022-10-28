@@ -1,0 +1,14 @@
+.pager-continer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagerItem {
+  margin: 5px;
+  border: 1px solid black;
+}
+
+.curPageItem {
+  font-weight: bold;
+}

@@ -1,7 +1,7 @@
 
 .wether-widget {
   width: 350px;
-  height: 200px;
+  height: 210px;
   border: 1px solid black;
   border-radius: 8px;
   padding: 20px;
@@ -10,12 +10,13 @@
   justify-content: space-between;
 }
 
-.addBlock {
-}
 
 .item-container {
   display: flex;
   align-content: center;
+  justify-content: space-between;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 
 .delete-button {

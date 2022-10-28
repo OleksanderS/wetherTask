@@ -10,7 +10,7 @@ import { WetherService } from './wether.service';
 })
 export class WetherWidgetComponent implements OnInit {
 
-  wetherItems$: Observable<wetherItem[]> | undefined;
+  wetherItems: wetherItem[] = [];
 
   constructor(public wetherData: WetherService) { }
 
@@ -20,11 +20,14 @@ export class WetherWidgetComponent implements OnInit {
 
   async initData() {
     await this.wetherData.getPlaceItems();
-    this.wetherItems$ = this.wetherData.getData();
+    this.wetherData.wetherItems.subscribe(pageItems => {
+      this.wetherItems = pageItems;
+    });
+    this.wetherData.getCurPageData();
   }
 
-  deletePlace(index: number) {
-    this.wetherData.removePlaceItem(index);
+  deletePlace(item: wetherItem) {
+    this.wetherData.removePlaceItem(item);
   }
 
 }

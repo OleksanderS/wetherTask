@@ -1,0 +1,5 @@
+<div class="pager-continer">
+  <button *ngFor="let n of [].constructor(pageCount); index as i;"
+        (click)="setPage(i+1)" class="pagerItem" [ngClass]="{ curPageItem : i+1 == curPage }" >{{i+1}}
+  </button>
+</div>

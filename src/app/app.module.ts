@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { WetherWidgetComponent } from './wether-widget/wether-widget.component';
 import { WetherItemComponent } from './wether-widget/wether-item/wether-item.component';
 import { ItemAddComponent } from './wether-widget/item-add/item-add.component';
+import { PagerComponent } from './wether-widget/pager/pager.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     WetherWidgetComponent,
     WetherItemComponent,
-    ItemAddComponent
+    ItemAddComponent,
+    PagerComponent
   ],
   imports: [
     BrowserModule,

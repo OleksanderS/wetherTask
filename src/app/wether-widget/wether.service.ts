@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import { placeItem, wetherItem, } from './wether.interface';
-import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, Subject } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 
 const storageKey = 'wetherWidgetItems'
@@ -11,12 +11,7 @@ const defaultItem: placeItem = {
   lon: 30.52,
   //'Kiev'
 }
-const defaultItem2: placeItem = {
-  defaultItem: false,
-  lat: 50.51809 ,
-  lon: 30.80671,
-  //'Brow'
-}
+
 const SERVICE_URL = "https://fcc-weather-api.glitch.me/api/current";
 const MAX_ITEMS_PERPAGE = 5;
 
@@ -27,10 +22,17 @@ export class WetherService {
 
   private placeItems: placeItem[] = [];
   public wetherItems = new BehaviorSubject<wetherItem[]>([]);
-  private curPage: number = 1;
+  public curPage: number = 1;
+  public dataUpdated = new Subject<boolean>();
 
   constructor(protected http: HttpClient) {
 
+  }
+
+
+  refreshData() {
+    this.getCurPageData();
+    this.dataUpdated.next(true);
   }
 
   getData(): Observable<wetherItem[]> {
@@ -49,9 +51,12 @@ export class WetherService {
   }
 
   getCurPageItems(): placeItem[] {
-    let lastItemIndex = (this.curPage)*MAX_ITEMS_PERPAGE;
-    lastItemIndex = lastItemIndex > this.placeItems.length ? this.placeItems.length-1 : lastItemIndex;
-    let firstItemIndex = (this.curPage-1)*MAX_ITEMS_PERPAGE;
+    let firstItemIndex = (this.curPage - 1) * MAX_ITEMS_PERPAGE;
+    firstItemIndex = firstItemIndex < 0 ? 0 : firstItemIndex;
+    let lastItemIndex = firstItemIndex + MAX_ITEMS_PERPAGE;
+    if (lastItemIndex  >=  this.placeItems.length) {
+      return this.placeItems.slice(firstItemIndex);
+    }
     return this.placeItems.slice(firstItemIndex, lastItemIndex);
   }
 
@@ -63,13 +68,14 @@ export class WetherService {
     ).pipe(
       map((responseArr: any[]) => responseArr.reduce((arr: wetherItem[], respItem: any, index: number) => {
         const item: wetherItem = {
-          place: this.placeItems[index],
+          place: pageItems[index],
           wetherData: respItem
         }
         return arr.concat(item);
       }, []))
     ).subscribe((result: wetherItem[]) => {
-      this.wetherItems.next(result)
+      this.wetherItems.next(result);
+      this.dataUpdated.next(true);
     });
   }
 
@@ -83,8 +89,8 @@ export class WetherService {
     }
   }
 
-  private updatePlaceItems(placeItems: placeItem[]) {
-    localStorage.setItem(storageKey, JSON.stringify(placeItems));
+  private updatePlaceItems() {
+    localStorage.setItem(storageKey, JSON.stringify(this.placeItems));
   }
 
   private async getDefaultPlace() {
@@ -104,7 +110,6 @@ export class WetherService {
         });
       } else {
         defaultPlaces.push(defaultItem);
-        defaultPlaces.push(defaultItem2);
         resolve(defaultPlaces);
       }
     })
@@ -113,16 +118,36 @@ export class WetherService {
 
   public addPlaceItem(lat: number, lon: number, defaultPlace: boolean = false) {
     this.placeItems.push({lat, lon, defaultItem: defaultPlace});
-    this.updatePlaceItems(this.placeItems);
+    this.updatePlaceItems();
+    this.refreshData();
   }
 
-  public removePlaceItem(index: number) {
+  public removePlaceItem(remove: wetherItem) {
+    const index = this.placeItems.findIndex(item => {
+      return item.lat == remove.place.lat && item.lon == remove.place.lon;
+    });
     this.placeItems.splice(index,1);
-    this.updatePlaceItems(this.placeItems);
+    this.updatePlaceItems();
+
+    if (this.curPage > this.getPageCount()) {
+      this.curPage-= 1;
+    }
+    this.refreshData();
   }
 
 
+  setPage(page: number) {
+    this.curPage = page;
+    this.refreshData();
+  }
 
+  getPageCount(): number {
+    let pageCount = Math.round(this.placeItems.length / MAX_ITEMS_PERPAGE);
+    if (pageCount*MAX_ITEMS_PERPAGE < this.placeItems.length) {
+      pageCount+=1;
+    }
+    return pageCount;
+  }
 
 
 

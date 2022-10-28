@@ -15,8 +15,8 @@ export class ItemAddComponent implements OnInit {
 
   constructor(public wether: WetherService) {
     this.itemForm = new FormGroup({
-      "lat" : new FormControl(this.lat, [Validators.required, Validators.min(0),Validators.max(360)]),
-      "lon" : new FormControl(this.lon, [Validators.required, Validators.min(0),Validators.max(360)])
+      "lat" : new FormControl(this.lat, [Validators.required, Validators.min(0.01),Validators.max(360)]),
+      "lon" : new FormControl(this.lon, [Validators.required, Validators.min(0.01),Validators.max(360)])
   });
 
   }
@@ -28,6 +28,8 @@ export class ItemAddComponent implements OnInit {
   addPlace() {
     if (this.itemForm.valid) {
       this.wether.addPlaceItem(this.itemForm.value.lat, this.itemForm.value.lon);
+      this.itemForm.reset();
+      this.wether.getCurPageData();
     }
 
 }
